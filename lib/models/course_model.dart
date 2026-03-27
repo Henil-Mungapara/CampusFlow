@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CourseModel {
   final String id;
@@ -18,7 +19,7 @@ class CourseModel {
     return {
       'code': code,
       'name': name,
-      'createdAt': createdAt.toIso8601String(),
+      'createdAt': Timestamp.fromDate(createdAt),
       'departmentId': departmentId,
     };
   }
@@ -28,7 +29,7 @@ class CourseModel {
       id: id,
       code: map['code'] ?? '',
       name: map['name'] ?? '',
-      createdAt: map['createdAt'] != null ? DateTime.tryParse(map['createdAt'].toString()) ?? DateTime.now() : DateTime.now(),
+      createdAt: (map['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
       departmentId: map['departmentId'] ?? '',
     );
   }
