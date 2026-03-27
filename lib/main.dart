@@ -1,17 +1,20 @@
 import 'package:campusflow/views/admin/admin_home.dart';
-import 'package:campusflow/views/faculty/faculty_home.dart';
-import 'package:campusflow/views/student/student_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 import 'controllers/admin_controller.dart';
 import 'controllers/faculty_controller.dart';
 import 'controllers/student_controller.dart';
 import 'utils/app_colors.dart';
 import 'utils/app_size.dart';
 
-void main()async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
     statusBarIconBrightness: Brightness.dark,

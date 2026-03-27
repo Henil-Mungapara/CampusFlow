@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/ui_helper.dart';
-import 'faculty_registration.dart';
 
 class AdminManageFaculty extends StatefulWidget {
   const AdminManageFaculty({super.key});
@@ -50,9 +49,7 @@ class _AdminManageFacultyState extends State<AdminManageFaculty> {
         backgroundColor: AppColors.primary,
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text('Register', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const FacultyRegistration()));
-        },
+        onPressed: () => _showAddFacultyDialog(context),
       ),
       appBar: AppBar(
         title: const Text('Manage Faculty', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -118,6 +115,43 @@ class _AdminManageFacultyState extends State<AdminManageFaculty> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showAddFacultyDialog(BuildContext context) {
+    UIHelper.showCustomDialog(
+      context: context,
+      title: 'Faculty Registration',
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Full Name', icon: Icons.person),
+            const SizedBox(height: 12),
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Email Address', icon: Icons.email),
+            const SizedBox(height: 12),
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Phone Number', icon: Icons.phone),
+            const SizedBox(height: 12),
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Department', icon: Icons.business),
+            const SizedBox(height: 12),
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Designation / Role', icon: Icons.work),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel', style: TextStyle(color: AppColors.textSecondary)),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+          onPressed: () {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Faculty Registered Successfully!')));
+          },
+          child: const Text('Register', style: TextStyle(color: Colors.white)),
+        ),
+      ],
     );
   }
 }

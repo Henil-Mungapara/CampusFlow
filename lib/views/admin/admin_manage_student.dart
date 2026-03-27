@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/ui_helper.dart';
-import 'student_registration.dart';
 
 class AdminManageStudent extends StatefulWidget {
   const AdminManageStudent({super.key});
@@ -50,9 +49,7 @@ class _AdminManageStudentState extends State<AdminManageStudent> {
         backgroundColor: AppColors.primary,
         icon: const Icon(Icons.add, color: Colors.white),
         label: const Text('Register', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const StudentRegistration()));
-        },
+        onPressed: () => _showAddStudentDialog(context),
       ),
       appBar: AppBar(
         title: const Text('Manage Students', style: TextStyle(fontWeight: FontWeight.bold)),
@@ -118,6 +115,45 @@ class _AdminManageStudentState extends State<AdminManageStudent> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showAddStudentDialog(BuildContext context) {
+    UIHelper.showCustomDialog(
+      context: context,
+      title: 'Student Registration',
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Full Name', icon: Icons.person),
+            const SizedBox(height: 12),
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Enrollment Number', icon: Icons.badge),
+            const SizedBox(height: 12),
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Email Address', icon: Icons.email),
+            const SizedBox(height: 12),
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Phone Number', icon: Icons.phone),
+            const SizedBox(height: 12),
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Course / Branch', icon: Icons.book),
+            const SizedBox(height: 12),
+            UIHelper.customTextField(controller: TextEditingController(), hintText: 'Current Semester', icon: Icons.timeline),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel', style: TextStyle(color: AppColors.textSecondary)),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+          onPressed: () {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Student Registered Successfully!')));
+          },
+          child: const Text('Register', style: TextStyle(color: Colors.white)),
+        ),
+      ],
     );
   }
 }

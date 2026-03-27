@@ -33,10 +33,96 @@ class AdminHome extends StatelessWidget {
           const Divider(height: 1),
           _buildDialogOption(context, Icons.settings, 'Setup', () {
             Navigator.pop(context);
-            Navigator.push(context, MaterialPageRoute(builder: (_) => const SetupScreen()));
+            _showSetupDialog(context);
           }),
         ],
       ),
+    );
+  }
+
+  void _showSetupDialog(BuildContext context) {
+    final setupItems = [
+      {'title': 'Department', 'icon': Icons.business_rounded},
+      {'title': 'Course', 'icon': Icons.menu_book_rounded},
+      {'title': 'Division', 'icon': Icons.groups_rounded},
+      {'title': 'Subject', 'icon': Icons.science_rounded},
+    ];
+
+    UIHelper.showCustomDialog(
+      context: context,
+      title: 'Setup',
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: setupItems.map((item) {
+          return ListTile(
+            leading: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(item['icon'] as IconData, color: AppColors.primary, size: 22),
+            ),
+            title: Text(item['title'] as String, style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+            trailing: const Icon(Icons.chevron_right, color: AppColors.textLight, size: 20),
+            onTap: () {
+              Navigator.pop(context);
+              _showSetupActionDialog(context, item['title'] as String);
+            },
+          );
+        }).toList(),
+      ),
+    );
+  }
+
+  void _showSetupActionDialog(BuildContext context, String title) {
+    UIHelper.showCustomDialog(
+      context: context,
+      title: 'Manage $title',
+      content: Text('What would you like to do with $title?', style: const TextStyle(color: AppColors.textSecondary)),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.pop(context);
+            _showSetupAddDialog(context, title);
+          },
+          child: const Text('Add', style: TextStyle(color: AppColors.primary)),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (_) => SetupScreen()));
+          },
+          child: const Text('View', style: TextStyle(color: Colors.white)),
+        ),
+      ],
+    );
+  }
+
+  void _showSetupAddDialog(BuildContext context, String title) {
+    final TextEditingController nameCtrl = TextEditingController();
+    UIHelper.showCustomDialog(
+      context: context,
+      title: 'Add $title',
+      content: UIHelper.customTextField(
+        controller: nameCtrl,
+        hintText: 'Enter $title Name',
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancel', style: TextStyle(color: AppColors.textSecondary)),
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary),
+          onPressed: () {
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('$title saved successfully!')));
+          },
+          child: const Text('Save', style: TextStyle(color: Colors.white)),
+        ),
+      ],
     );
   }
 

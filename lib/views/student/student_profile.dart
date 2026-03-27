@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../utils/app_colors.dart';
-import '../../utils/ui_helper.dart';
 
 class StudentProfile extends StatelessWidget {
   const StudentProfile({super.key});
@@ -104,7 +103,7 @@ class StudentProfile extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 5),
           )
@@ -115,7 +114,7 @@ class StudentProfile extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.1),
+            color: AppColors.primary.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: Icon(icon, color: AppColors.primary),
